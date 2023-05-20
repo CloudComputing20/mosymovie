@@ -17,8 +17,8 @@
 </div>
 <div align=center>
 	<img src="https://img.shields.io/badge/SpringBoot-2C2255?style=flat&logo=SpringBoot&logoColor=white" />
-	<img src="https://img.shields.io/badge/Intellij-007ACC?style=flat&logo=Intellij&logoColor=white" />
+	<img src="https://img.shields.io/badge/Intellij-000000?style=flat&logo=intellijidea&logoColor=white" />
 	<img src="https://img.shields.io/badge/GCP-F8DC75?style=flat&logo=GoogleCloud&logoColor=white" />
 	<img src="https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white" />
-	<img src="https://img.shields.io/badge/ReactNative-2C2255?style=flat&logo=ReactNative&logoColor=white" />
+	<img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=React&logoColor=white" />
 </div>
