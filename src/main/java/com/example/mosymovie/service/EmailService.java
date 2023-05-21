@@ -19,7 +19,7 @@ import java.util.Random;
 @Service
 public class EmailService implements MailServiceInter{
     private final JavaMailSender javaMailSender; //Bean 등록해둔 MailConfig를 javaMailSender라는 이름으로 autowired
-    private final String ePw = createKey(); //인증 번호
+    public static final String ePw = createKey(); //인증 번호
 
     public MimeMessage createMessage(String to) throws MessagingException, UnsupportedEncodingException{
         log.info("보내는 대상: "+ to);
