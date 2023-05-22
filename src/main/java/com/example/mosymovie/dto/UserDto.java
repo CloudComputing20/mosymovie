@@ -10,6 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterUserDto {
+
+    private int userID;
     @NotNull
     private String id;
     @NotNull
