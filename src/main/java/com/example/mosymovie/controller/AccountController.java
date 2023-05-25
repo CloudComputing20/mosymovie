@@ -1,6 +1,6 @@
 package com.example.mosymovie.controller;
 
-import com.example.mosymovie.dto.RegisterUserDto;
+import com.example.mosymovie.dto.UserDto;
 import com.example.mosymovie.service.EmailService;
 import com.example.mosymovie.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class AccountController {
     private final MemberService memberService;
 
     @GetMapping("signup")
-    public String signUp(RegisterUserDto dto){
+    public String signUp(UserDto dto){
         return "signup";
     }
 
@@ -43,7 +43,7 @@ public class AccountController {
     }
 
     @PostMapping("signup")
-    public String signUpPost(@Valid @RequestBody RegisterUserDto dto, BindingResult bindingResult) throws Exception{
+    public String signUpPost(@Valid @RequestBody UserDto dto, BindingResult bindingResult) throws Exception{
         if(bindingResult.hasErrors()){
             return "signup";
         }else{
@@ -57,22 +57,22 @@ public class AccountController {
     //id중복 체크
     @PostMapping("idCheck")
     @ResponseBody
-    public boolean idCheck(@RequestBody RegisterUserDto dto){
+    public boolean idCheck(@RequestBody UserDto dto){
         boolean count = memberService.sameIdCheck(dto.getId());
         return count;
     }
 
     @GetMapping("login")
     public String login(Model model){
-        RegisterUserDto dto  = new RegisterUserDto();
+        UserDto dto  = new UserDto();
         model.addAttribute("dto", dto);
         return "login";
     }
 
     @PostMapping("login")
-    public String login(@RequestBody RegisterUserDto dto, HttpServletRequest request, Model model) throws Exception{
+    public String login(@RequestBody UserDto dto, HttpServletRequest request, Model model) throws Exception{
         HttpSession session = request.getSession();
-        RegisterUserDto findMemberDto = memberService.login(dto);
+        UserDto findMemberDto = memberService.login(dto);
         if(findMemberDto != null){
             session.setAttribute("message", "ID나 비밀번호가 다릅니다.");
             return "login";

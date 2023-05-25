@@ -8,17 +8,22 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Getter
-public class Movie {
+public class PreferGenre {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int genreID;
+    private int preferGenreID;
 
     @Column(nullable = false)
     private String genreName;
 
+    @ManyToOne
+    @JoinColumn(name = "userID")
+    private User userID;
+
     @Builder
-    public Movie(String genreName){
+    public PreferGenre(String genreName, User userID){
         this.genreName = genreName;
+        this.userID = userID;
     }
 }

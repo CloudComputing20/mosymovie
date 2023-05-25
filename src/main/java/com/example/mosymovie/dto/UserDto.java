@@ -9,7 +9,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterUserDto {
+public class UserDto {
 
     private int userID;
     @NotNull
@@ -25,7 +25,7 @@ public class RegisterUserDto {
     private boolean alarmReceive;
 
     @Builder
-    public RegisterUserDto(String id, String password, String name, String phoneNumber, String emailAddr, Boolean alarmReceive){
+    public UserDto(String id, String password, String name, String phoneNumber, String emailAddr, Boolean alarmReceive){
         this.alarmReceive = alarmReceive;
         this.emailAddr = emailAddr;
         this.id = id;
@@ -34,7 +34,7 @@ public class RegisterUserDto {
         this.phoneNumber = phoneNumber;
     }
 
-    public RegisterUserDto(User user) {
+    public UserDto(User user) {
         this.id = user.getId();
         this.password = user.getPassword();
     }

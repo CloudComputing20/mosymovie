@@ -1,6 +1,6 @@
 package com.example.mosymovie.service;
 
-import com.example.mosymovie.dto.RegisterUserDto;
+import com.example.mosymovie.dto.UserDto;
 import com.example.mosymovie.entity.User;
 import com.example.mosymovie.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -18,8 +18,8 @@ import java.security.NoSuchAlgorithmException;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public boolean joinCheck(RegisterUserDto dto){
-        User findMember = memberRepository.findByUserId(dto.getId());
+    public boolean joinCheck(UserDto dto){
+        User findMember = memberRepository.findByid(dto.getId());
         if(findMember == null){
             return true;
         }else{
@@ -28,7 +28,7 @@ public class MemberService {
     }
 
     public boolean sameIdCheck(String id){
-        User findMember = memberRepository.findByUserId(id);
+        User findMember = memberRepository.findByid(id);
         if(findMember == null){
             return false;
         }else{
@@ -38,11 +38,12 @@ public class MemberService {
 
     //dto의 비밀번호를 암호화 해서 dto를 entity로 만들어 주고, repository를 이용해 db에 회원 save
     @Transactional
-    public String join(RegisterUserDto dto) throws NoSuchAlgorithmException{
+    public String join(UserDto dto) throws NoSuchAlgorithmException{
         dto.passwordEncoding(encrypt(dto.getPassword()));
         User member = dto.toEntity();
-        User findMember = memberRepository.findByUserId(member.getId());
+        User findMember = memberRepository.findByid(member.getId());
         if(findMember == null){
+            memberRepository.save(member);
             return member.getId();
         }else{
             return null;
@@ -61,12 +62,12 @@ public class MemberService {
         return sb.toString();
     }
 
-    public RegisterUserDto login(RegisterUserDto dto) throws Exception{
-        User findMember = memberRepository.findByUserId(dto.getId());
+    public UserDto login(UserDto dto) throws Exception{
+        User findMember = memberRepository.findByid(dto.getId());
         dto.passwordEncoding(encrypt(dto.getPassword()));
 
         if(findMember != null){
-            RegisterUserDto findMemberDto = new RegisterUserDto(findMember);
+            UserDto findMemberDto = new UserDto(findMember);
             if(dto.getPassword().equals(findMemberDto.getPassword())){
                 return findMemberDto;
             }

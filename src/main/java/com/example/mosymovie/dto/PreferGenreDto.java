@@ -1,6 +1,7 @@
 package com.example.mosymovie.dto;
 
-import com.example.mosymovie.entity.preferGenre;
+import com.example.mosymovie.entity.User;
+import com.example.mosymovie.entity.PreferGenre;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,20 +11,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieDto {
+public class PreferGenreDto {
 
-    private int genreID;
+    private int preferGenreID;
     @NotNull
     private String genreName;
 
+    @NotNull
+    private User userID;
+
     @Builder
-    public MovieDto(String genreName){
+    public PreferGenreDto(String genreName, User userID){
         this.genreName = genreName;
+        this.userID = userID;
     }
 
-    public preferGenre toEntity(){
-        preferGenre genre = preferGenre.builder()
+    public PreferGenre toEntity(){
+        PreferGenre genre = PreferGenre.builder()
                 .genreName(genreName)
+                .userID(userID)
                 .build();
         return genre;
     }

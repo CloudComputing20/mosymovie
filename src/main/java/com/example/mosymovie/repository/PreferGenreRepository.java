@@ -1,9 +1,9 @@
 package com.example.mosymovie.repository;
 
+import com.example.mosymovie.entity.PreferGenre;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MovieRepository extends JpaRepository<User_Genre, Integer> {
-
+public interface PreferGenreRepository extends JpaRepository<PreferGenre, Integer> {
 }
