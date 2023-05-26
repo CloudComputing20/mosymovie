@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -29,10 +30,14 @@ public class RecentMovieService {
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse(result);
         list = (JsonArray) jsonObject.get("results");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat dtFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         for (int k = 0; k < list.size(); k++) {
             JsonObject contents = (JsonObject) list.get(k);
+
+            String oldDate = contents.get("release_date").toString();
+            String newDate = oldDate.replaceAll("\"", "");
+            Date formatDate = dtFormat.parse(newDate);
 
 
             String ImgUrl = "https://image.tmdb.org/t/p/w200";
@@ -41,7 +46,8 @@ public class RecentMovieService {
                     .title(contents.get("title").toString())
                     .posterImage(ImgUrl + contents.get("poster_path").toString().replaceAll(match, ""))
                     .detail(contents.get("overview").toString())
-                    .releaseDate(format.parse(contents.get("release_date").getAsJsonObject().get("date").getAsString()))
+                    .releaseDate(formatDate)
+                    .genre(contents.get("genre_ids").toString())
                     .build();
             movieRepository.save(movie);
             //영화 장르 부분 디비 수정해야함
