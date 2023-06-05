@@ -22,7 +22,6 @@ import java.util.Date;
 @Transactional
 @RequiredArgsConstructor
 public class RecentMovieService {
-    private static final String API_KEY = "2e6123897022f9724a9292e10cdc618c";
     private final MovieRepository movieRepository;
 
     public String getRecentMoviesInfo(String result) throws ParseException {
