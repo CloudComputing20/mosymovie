@@ -3,6 +3,7 @@ package com.example.mosymovie.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Blob;
 import java.util.Date;
@@ -12,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Getter
+@DynamicUpdate
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +26,7 @@ public class Movie {
     @Temporal(TemporalType.DATE)
     private Date releaseDate;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "LONGTEXT")
     private String genre;
 
     @Column(columnDefinition = "LONGTEXT")

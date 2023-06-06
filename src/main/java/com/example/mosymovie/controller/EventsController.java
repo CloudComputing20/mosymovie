@@ -16,11 +16,8 @@ import java.util.List;
 public class EventsController {
     private final EventsService eventsService;
 
-    @GetMapping("/events")
-    public List<Events> events() throws Exception{
-
-        List<Events> eventsList = eventsService.getEventsData();
-
-        return eventsList;
+    @GetMapping("events")
+    public List<Events> getAllEvents(){
+        return eventsService.getAllEvents();
     }
 }

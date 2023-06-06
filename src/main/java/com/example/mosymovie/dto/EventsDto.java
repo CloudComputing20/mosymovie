@@ -24,13 +24,16 @@ public class EventsDto {
     private String movieTitle;
     private String image;
 
+    private String genre;
+
     @Builder
-    public EventsDto(String url, String title, String period, String image, String movieTitle){
+    public EventsDto(String url, String title, String period, String image, String movieTitle, String genre){
         this.image = image;
         this.url = url;
         this.title = title;
         this.period = period;
         this.movieTitle = movieTitle;
+        this.genre = genre;
     }
 
     public Events toEntity(){
@@ -40,6 +43,7 @@ public class EventsDto {
                 .image(image)
                 .title(title)
                 .movieTitle(movieTitle)
+                .genre(genre)
                 .build();
         return event;
     }

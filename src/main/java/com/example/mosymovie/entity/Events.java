@@ -2,12 +2,14 @@ package com.example.mosymovie.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 @Getter
+@DynamicUpdate
 public class Events {
 
     @Id
@@ -29,12 +31,16 @@ public class Events {
     @Column
     private String image;
 
+    @Column(columnDefinition = "LONGTEXT")
+    private String genre;
+
     @Builder
-    public Events(String url, String title, String period, String image, String movieTitle){
+    public Events(String url, String title, String period, String image, String movieTitle, String genre){
         this.image = image;
         this.url = url;
         this.title = title;
         this.period = period;
         this.movieTitle = movieTitle;
+        this.genre = genre;
     }
 }

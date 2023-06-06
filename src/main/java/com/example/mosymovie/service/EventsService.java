@@ -2,7 +2,11 @@ package com.example.mosymovie.service;
 
 
 import com.example.mosymovie.entity.Events;
+import com.example.mosymovie.entity.Movie;
+import com.example.mosymovie.repository.EventsRepository;
+import com.example.mosymovie.repository.MovieRepository;
 import jakarta.transaction.Transactional;
+import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -24,11 +28,13 @@ import java.util.regex.Pattern;
 @Transactional
 @RequiredArgsConstructor
 public class EventsService {
+    private final EventsRepository eventsRepository;
+    private final MovieRepository movieRepository;
     private WebDriver driver;
     private boolean check = false;
     private static String event_url = "https://event.lottecinema.co.kr/NLCHS/Event/DetailList?code=20#none";
 
-    public List<Events> getEventsData() throws IOException{
+    public String getEventsData() throws IOException{
 
         List<Events> eventsList = new ArrayList<Events>();
 
@@ -55,14 +61,25 @@ public class EventsService {
                     while(matcher.find()){
                         extractTitle = matcher.group(1);
                     }
+
+                    String movieGenre = getMovieGenre(extractTitle);
+
                     Events events = Events.builder()
                             .url(content.findElement(By.tagName("a")).getAttribute("href"))
                             .image(content.findElement(By.cssSelector("a img")).getAttribute("src"))
                             .title(content.findElement(By.cssSelector("a img")).getAttribute("alt"))
                             .period(content.findElement(By.cssSelector("a div.itm_date")).getText())
                             .movieTitle(extractTitle)
+                            .genre(movieGenre)
                             .build();
-                    if (!eventsList.contains(events)) {
+                    boolean hasSameTitle = false;
+                    for(Events e : eventsList){
+                        if (e.getTitle().equals(events.getTitle())) {
+                            hasSameTitle = true;
+                            break;
+                        }
+                    }
+                    if(!hasSameTitle){
                         eventsList.add(events);
                     }
                 }
@@ -76,6 +93,26 @@ public class EventsService {
             System.out.println("CGV Crawling error: "+e.toString());
         }
 
-        return eventsList;
+        for(Events e : eventsList){
+            eventsRepository.save(e);
+        }
+        return "okay";
+    }
+
+    public List<Events> getAllEvents(){
+        List<Events> events = eventsRepository.findAll();
+        return events;
+    }
+
+    public String getMovieGenre(String movieTitle){
+        String movieGenre = "";
+        List<Movie> movieList = movieRepository.findAll();
+        for(Movie movie : movieList){
+            if(movie.getTitle().equals(movieTitle)){
+                movieGenre = movie.getGenre();
+                System.out.println("1: "+movieGenre);
+            }
+        }
+        return movieGenre;
     }
 }

@@ -20,7 +20,7 @@ public class AccountController {
     private final MemberService memberService;
 
     @GetMapping("signup")
-    public String signUp(UserDto dto){
+    public String signUp(){
         return "signup";
     }
 
@@ -48,10 +48,11 @@ public class AccountController {
             return "signup";
         }else{
             if(memberService.joinCheck(dto)){
-                memberService.join(dto);
+                return memberService.join(dto)+"님 환영합니다.";
+            }else{
+                return "이미 존재하는 회원입니다.";
             }
         }
-        return "redirect:login";
     }
 
     //id중복 체크
@@ -62,15 +63,8 @@ public class AccountController {
         return count;
     }
 
-    @GetMapping("login")
-    public String login(Model model){
-        UserDto dto  = new UserDto();
-        model.addAttribute("dto", dto);
-        return "login";
-    }
-
     @PostMapping("login")
-    public String login(@RequestBody UserDto dto, HttpServletRequest request, Model model) throws Exception{
+    public String login(@RequestBody UserDto dto, HttpServletRequest request) throws Exception{
         HttpSession session = request.getSession();
         UserDto findMemberDto = memberService.login(dto);
         if(findMemberDto != null){
