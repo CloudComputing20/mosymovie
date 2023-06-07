@@ -11,19 +11,15 @@ import lombok.*;
 public class PreferGenre {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int preferGenreID;
+    private int userID;
 
-    @Column(nullable = false)
-    private String genreName;
+    @Column
+    private String preferMovie;
 
-    @ManyToOne
-    @JoinColumn(name = "userID")
-    private User userID;
 
     @Builder
-    public PreferGenre(String genreName, User userID){
-        this.genreName = genreName;
+    public PreferGenre(String preferMovie, int userID){
+        this.preferMovie = preferMovie;
         this.userID = userID;
     }
 }

@@ -10,25 +10,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class PreferGenreDto {
-
-    private int preferGenreID;
-    @NotNull
-    private String genreName;
-
-    @NotNull
-    private User userID;
+    private String preferMovie;
+    private int userID;
 
     @Builder
-    public PreferGenreDto(String genreName, User userID){
-        this.genreName = genreName;
+    public PreferGenreDto(String preferMovie, int userID){
+        this.preferMovie = preferMovie;
         this.userID = userID;
     }
 
     public PreferGenre toEntity(){
         PreferGenre genre = PreferGenre.builder()
-                .genreName(genreName)
+                .preferMovie(preferMovie)
                 .userID(userID)
                 .build();
         return genre;

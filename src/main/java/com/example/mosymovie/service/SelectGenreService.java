@@ -24,7 +24,7 @@ public class SelectGenreService {
         User findUser = memberRepository.findByid(userID);
 
         for(int i = 0;i < movieGenreList.size();i++){
-            PreferGenreDto preferGenreDto = new PreferGenreDto(movieGenreList.get(i), findUser);
+            PreferGenreDto preferGenreDto = new PreferGenreDto(movieGenreList.get(i), findUser.getUserID());
             PreferGenre preferGenre = preferGenreDto.toEntity();
             preferGenreRepository.save(preferGenre);
         }
