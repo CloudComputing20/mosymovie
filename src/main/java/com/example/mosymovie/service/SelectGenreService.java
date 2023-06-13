@@ -20,14 +20,13 @@ public class SelectGenreService {
     private final PreferGenreRepository preferGenreRepository;
 
     @Transactional
-    public String addPreferGenre(List<String> movieGenreList, String userID) throws NoSuchAlgorithmException {
-        User findUser = memberRepository.findByid(userID);
+    public String addPreferGenre(PreferGenreDto dto) throws NoSuchAlgorithmException {
+        PreferGenre prefer = PreferGenre.builder()
+                .userID(dto.getUserID())
+                .preferMovie(dto.getPreferMovie())
+                .build();
 
-        for(int i = 0;i < movieGenreList.size();i++){
-            PreferGenreDto preferGenreDto = new PreferGenreDto(movieGenreList.get(i), findUser.getUserID());
-            PreferGenre preferGenre = preferGenreDto.toEntity();
-            preferGenreRepository.save(preferGenre);
-        }
+        preferGenreRepository.save(prefer);
 
         return preferGenreRepository.findAll().toString();
     }

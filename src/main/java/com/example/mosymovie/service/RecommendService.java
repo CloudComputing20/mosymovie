@@ -8,10 +8,18 @@ import com.example.mosymovie.repository.PreferGenreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.tensorflow.Graph;
+import org.tensorflow.Session;
 import org.tensorflow.Tensor;
+import org.apache.commons.io.IOUtils;
+import org.tensorflow.TensorFlow;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -21,11 +29,31 @@ public class RecommendService {
 
     private final PreferGenreRepository preferGenreRepository;
     private final MovieRepository movieRepository;
-    public List<String> postprocessData(List<Tensor<?>> outputTensorList, int userID) {
+
+    public List<Movie> getRecommendMovies(PreferGenre userPrefer){
+        String preferMovieStr = userPrefer.getPreferMovie();
+        List<String> preferMovieList = List.of(preferMovieStr.split(","));
+        List<Movie> pickMovie = new ArrayList<>();
+        for(String pickGenre : preferMovieList){
+            List<Movie> movie = movieRepository.findAll();
+            for(Movie m : movie){
+                String genre = m.getGenre();
+                List<String> genreList = List.of(genre.replace("[", "").replace("]", "").split(","));
+                if(genreList.contains(pickGenre)){
+                    System.out.println(pickGenre);
+                    pickMovie.add(m);
+                }
+            }
+        }
+
+        return pickMovie;
+    }
+
+    /*public List<String> postprocessData(Result outputTensorList, int userID) {
         System.out.println("tensorList : "+outputTensorList.toString());
         List<String> AIList = new ArrayList<>();
         List<String> preferMovieList = new ArrayList<>();
-        for(Tensor<?> tensor : outputTensorList){
+        for(Map.Entry<String, Tensor> tensor : outputTensorList){
             AIList.add(tensor.toString());
         }
         saveRepository(AIList);
@@ -92,5 +120,5 @@ public class RecommendService {
             }
         }
         return movies_poster;
-    }
+    }*/
 }

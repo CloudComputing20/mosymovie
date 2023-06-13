@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
 	implementation 'org.tensorflow:tensorflow:1.15.0'
+	implementation 'org.tensorflow:tensorflow-core-platform:0.5.0'
+	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
 	implementation 'org.jsoup:jsoup:1.14.2'
 	implementation 'org.seleniumhq.selenium:selenium-java:4.9.1'

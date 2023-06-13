@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PreferGenreDto {
     private String preferMovie;
-    private int userID;
+    private String userID;
 
     @Builder
-    public PreferGenreDto(String preferMovie, int userID){
+    public PreferGenreDto(String preferMovie, String userID){
         this.preferMovie = preferMovie;
         this.userID = userID;
     }

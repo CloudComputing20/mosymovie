@@ -1,5 +1,6 @@
 package com.example.mosymovie.controller;
 
+import com.example.mosymovie.dto.PreferGenreDto;
 import com.example.mosymovie.service.SelectGenreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,9 @@ public class SelectGenreController {
 
     @PostMapping("selectGenre")
     @ResponseBody
-    public String PreferGenre(@RequestParam List<String> movieGenreList, String userID) throws NoSuchAlgorithmException {
-        selectGenreService.addPreferGenre(movieGenreList, userID);
+    public String PreferGenre(@RequestBody PreferGenreDto dto) throws NoSuchAlgorithmException {
+
+        selectGenreService.addPreferGenre(dto);
 
         return ""; //메인 화면
     }

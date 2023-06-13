@@ -5,20 +5,19 @@ import lombok.*;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Entity
 @Getter
 public class PreferGenre {
 
     @Id
-    private int userID;
+    private String userID;
 
     @Column
     private String preferMovie;
 
 
     @Builder
-    public PreferGenre(String preferMovie, int userID){
+    public PreferGenre(String preferMovie, String userID){
         this.preferMovie = preferMovie;
         this.userID = userID;
     }
