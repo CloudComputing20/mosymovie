@@ -9,8 +9,6 @@ import com.google.gson.JsonObject;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.google.gson.JsonParser;
@@ -54,6 +52,7 @@ public class RecentMovieService {
                     .releaseDate(formatDate)
                     .genre(genreNameList.toString())
                     .build();
+
             movieRepository.save(movie);
             //영화 장르 부분 디비 수정해야함
         }

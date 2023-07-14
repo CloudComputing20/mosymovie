@@ -5,6 +5,8 @@ import com.example.mosymovie.entity.Events;
 import com.example.mosymovie.entity.Movie;
 import com.example.mosymovie.repository.EventsRepository;
 import com.example.mosymovie.repository.MovieRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jdk.jfr.Event;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +36,15 @@ public class EventsService {
     private WebDriver driver;
     private boolean check = false;
     private static String event_url = "https://event.lottecinema.co.kr/NLCHS/Event/DetailList?code=20#none";
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public String getEventsData() throws IOException{
 
         List<Events> eventsList = new ArrayList<Events>();
 
         try{
-            System.setProperty("webdriver.chrome.driver", "C:\\Users\\he308\\chromedriver_win32 (1)\\chromedriver.exe");
+            System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--disable-popup-blocking");
@@ -91,6 +96,16 @@ public class EventsService {
             }
         }catch (Exception e){
             System.out.println("CGV Crawling error: "+e.toString());
+        }
+
+        String checkTableQuery = "SELECT COUNT(*) FROM information_schema.tables WHERE table_name = 'events'";
+        Long count = (Long) entityManager.createNativeQuery(checkTableQuery).getSingleResult();
+        BigInteger bigIntegerCount = BigInteger.valueOf(count);
+        boolean tableExists = bigIntegerCount.intValue() > 0;
+
+        if(tableExists) {
+            String deleteQuery = "DELETE FROM movie.events";
+            entityManager.createNativeQuery(deleteQuery).executeUpdate();
         }
 
         for(Events e : eventsList){

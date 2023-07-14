@@ -21,11 +21,24 @@ public class SelectGenreService {
 
     @Transactional
     public String addPreferGenre(PreferGenreDto dto) throws NoSuchAlgorithmException {
-        PreferGenre prefer = PreferGenre.builder()
-                .userID(dto.getUserID())
-                .preferMovie(dto.getPreferMovie())
-                .build();
+        String str = dto.getPreferMovie();
+        String changedPreferMovieStr = "";
+        List<String> strList = List.of(str.split(","));
+        for (int i = 0; i < strList.size(); i++) {
+            String middle = strList.get(i);
+            String change = "\"" + middle + "\"";
+            changedPreferMovieStr += change;
 
+            // 마지막 요소가 아닐 때만 쉼표를 추가
+            if (i < strList.size() - 1) {
+                changedPreferMovieStr += ",";
+            }
+        }
+                PreferGenre prefer = PreferGenre.builder()
+                .userID(dto.getUserID())
+                .preferMovie(changedPreferMovieStr)
+                .build();
+        System.out.println(prefer.getUserID()+", "+prefer.getPreferMovie());
         preferGenreRepository.save(prefer);
 
         return preferGenreRepository.findAll().toString();
